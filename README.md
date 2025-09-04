@@ -73,7 +73,7 @@
 ## 사용 기술 (Tech Stack)
 
 - Language: Java 17
-- Framework: Spring Boot 3.5.x (Web, Validation, Security, Data JPA, Data Redis, Mail(optional), Actuator(optional))
+- Framework: Spring Boot 3.5.5 (Web, Validation, Security, Data JPA, Data Redis, Mail(optional), Actuator(optional))
 - DB: MySQL 8.0 / Flyway(스키마 마이그레이션)
 - Cache/Queue: Redis(이메일 인증, 알림 스케줄링 보조)
 - Auth: Spring Security + JWT
