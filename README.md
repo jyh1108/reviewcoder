@@ -39,7 +39,9 @@
 
   - 문제별 시도 기록(타임라인) 생성/조회/수정/삭제
 
-  - contentMarkdown(회고/풀이), codeLang, codeText(코드 스냅샷) 저장
+  - contentMarkdown(회고/풀이)
+   
+  - (코드 스냅샷 파일형태로 저장)
 
   - (시간 여유시) 첨부파일(S3) 연결
 
@@ -53,7 +55,7 @@
 
   - 스케줄러가 next_review_at <= now 문제를 조회 → 중복 방지 로그(notification_log)로 멱등 보장
 
-  - 채널: INAPP/EMAIL/PUSH
+  - 채널: INAPP/EMAIL/PUSH (또는 INAPP만)
 
 - 통계
 
@@ -68,7 +70,8 @@
   - 입력 검증(Validation), 예외 처리 표준화
  
 ## ERD
-<img width="1417" height="690" alt="image" src="https://github.com/user-attachments/assets/e68e5852-418b-4de0-aeb6-91cfb30cf7d8" />
+<img width="1426" height="781" alt="image" src="https://github.com/user-attachments/assets/566e0cd3-6ad6-4552-be9c-c46e68af8faa" />
+
 
 ## 사용 기술 (Tech Stack)
 
