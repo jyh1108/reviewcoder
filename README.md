@@ -53,7 +53,7 @@
 
 - 복습 알림
 
-  - 스케줄러가 next_review_at <= now 문제를 조회 → 중복 방지 로그(notification_log)로 멱등 보장
+  - 스케줄러가 next_review_at <= now 문제를 조회 → 중복 방지 로그(notification)로 멱등 보장
 
   - 채널: INAPP/EMAIL/PUSH (또는 INAPP만)
 
