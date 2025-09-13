@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -14,17 +15,28 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final EmailCodeService emailCodeService;
+    private final PasswordEncoder passwordEncoder;
 
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
+
     @Transactional
-    public Long createUser(String email, String encodedPassword) {
+    public Long registerUser(String email, String rawPassword) {
+        if (!emailCodeService.isVerified(email)) {
+            throw new IllegalStateException("이메일이 인증되지 않았습니다. 인증 후 다시 시도해주세요.");
+        }
+
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalStateException("이미 사용 중인 이메일입니다.");
+        }
+
         User user = new User();
         user.setEmail(email);
-        user.setPasswordHash(encodedPassword);
-        user = userRepository.save(user);
-        return user.getId();
+        user.setPasswordHash(passwordEncoder.encode(rawPassword));
+        user.setEmailVerifiedAt(LocalDateTime.now());
+        return userRepository.save(user).getId();
     }
 }

@@ -29,11 +29,6 @@ public class User {
     @Column(name = "updated_at", insertable = false, updatable = false)
     private LocalDateTime updatedAt;
 
-
-    // 이메일 인증을 위해서 컬럼 추가
-    @Column(name = "email_verified", nullable = false)
-    private boolean emailVerified;
-
     @Column(name = "email_verified_at")
     private LocalDateTime emailVerifiedAt;
 }

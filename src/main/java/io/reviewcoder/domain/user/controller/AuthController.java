@@ -35,19 +35,12 @@ public class AuthController {
 
     // 회원가입
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody SignUpRequest req) {
-        // 이메일 인증 여부 확인
-        if (!emailCodeService.isVerified(req.email())) {
-            return ResponseEntity.badRequest().body(Map.of("error", "이메일이 인증되지 않았습니다. 인증 후 다시 시도해주세요."));
+    public ResponseEntity<?> signup(@RequestBody SignUpRequest req) {
+        try {
+            userService.registerUser(req.email(), req.password());
+            return ResponseEntity.ok(Map.of("message", "회원가입 성공"));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
-
-        // 중복 체크
-        if (userService.existsByEmail(req.email())) {
-            return ResponseEntity.badRequest().body(Map.of("error", "이미 사용 중인 이메일입니다."));
-        }
-
-        userService.createUser(req.email(), passwordEncoder.encode(req.password()));
-
-        return ResponseEntity.ok(Map.of("message", "회원가입이 완료되었습니다."));
     }
 }
