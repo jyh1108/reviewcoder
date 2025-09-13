@@ -70,7 +70,8 @@
   - 입력 검증(Validation), 예외 처리 표준화
  
 ## ERD
-<img width="1426" height="781" alt="image" src="https://github.com/user-attachments/assets/566e0cd3-6ad6-4552-be9c-c46e68af8faa" />
+<img width="1345" height="748" alt="image" src="https://github.com/user-attachments/assets/57be0561-8fad-48c6-ad6e-50917c767a87" />
+
 
 
 ## 사용 기술 (Tech Stack)
