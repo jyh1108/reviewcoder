@@ -8,7 +8,7 @@ public class ReviewCoderApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ReviewCoderApiApplication.class, args);
-
+		System.out.println("gggggggggggggggggggggggg");
 	}
 
 }
