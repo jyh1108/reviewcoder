@@ -3,18 +3,18 @@ spring:
     name: reviewcoder
 
   datasource:
-    url: jdbc:mysql://localhost:3306/reviewcoder?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/reviewcoder?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: a1346798
+    password: "a1346798"
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate   # Flyway 사용 → 스키마 자동생성 안 함
+      ddl-auto: validate   #Flyway 사용
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: false
 
   flyway:
@@ -26,24 +26,18 @@ spring:
       host: localhost
       port: 6379
 
-  mail:   # (선택: 이메일 인증/알림에 사용)
-    host: smtp.example.com
+  mail:
+    host: smtp.gmail.com
     port: 587
-    username: polcho1221@gmail.com
-    password: !Aa134679852
+    username: ttl337123@gmail.com
+    password: ynpu ljvn vgvy ynwe
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-
-jwt:
-  secret: ${JWT_SECRET:change-me}   # 환경변수로 관리 권장
-  access-exp-min: 60
-  refresh-exp-days: 7
-
-aws:   # (선택: 첨부파일 S3)
+aws:
   s3:
     bucket: your-bucket
     region: ap-northeast-2
@@ -53,3 +47,9 @@ server:
   error:
     include-message: always
     include-binding-errors: always
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.authentication: DEBUG
+    org.springframework.security.core.userdetails: TRACE
