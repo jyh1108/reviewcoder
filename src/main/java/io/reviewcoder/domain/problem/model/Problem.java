@@ -50,8 +50,8 @@ public class Problem {
     @Column(name = "next_review_at")
     private LocalDateTime nextReviewAt;
 
-    @Column(name = "tag_json", columnDefinition = "json")
-    private String tagJson;
+    @Column(name = "tag", length = 10)   // 최대 10자
+    private String tag;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;

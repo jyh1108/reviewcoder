@@ -13,34 +13,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @RequiredArgsConstructor
 public class ProblemService {
 
     private final ProblemRepository repository;
-    private final ObjectMapper objectMapper;
 
-    // --- 태그---
-    private String toJsonTag(String tag) {
-        try {
-            if (tag == null || tag.isBlank()) return null; // 비우면 DB NULL 저장
-            String t = tag.trim();
-            if (t.length() > 10) throw new IllegalArgumentException("TAG_TOO_LONG(<=10): " + t);
-            return objectMapper.writeValueAsString(t);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid tag", e);
-        }
-    }
-    private String fromJsonTag(String json) {
-        try {
-            if (json == null || json.isBlank()) return null;
-            return objectMapper.readValue(json, String.class);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    // --- 엔티티 → 응답 DTO ---
+    // 엔티티 → 응답 DTO
     private ProblemResponse toResponse(Problem p) {
         return ProblemResponse.builder()
                 .id(p.getId())
@@ -52,13 +32,13 @@ public class ProblemService {
                 .memo(p.getMemo())
                 .bookmarked(p.isBookmarked())
                 .nextReviewAt(p.getNextReviewAt())
-                .tag(fromJsonTag(p.getTagJson()))
+                .tag(p.getTag())
                 .createdAt(p.getCreatedAt())
                 .updatedAt(p.getUpdatedAt())
                 .build();
     }
 
-    // --- 생성 ---
+    // 생성
     @Transactional
     public ProblemResponse create(Long userId, ProblemCreateRequest req) {
         Problem p = Problem.builder()
@@ -70,13 +50,13 @@ public class ProblemService {
                 .memo(req.getMemo())
                 .bookmarked(false)
                 .nextReviewAt(req.getNextReviewAt())
-                .tagJson(toJsonTag(req.getTag()))
+                .tag(normalizeTag(req.getTag()))
                 .build();
         repository.save(p);
         return toResponse(p);
     }
 
-    // --- 상세 ---
+    // 상세(소유자 검증)
     @Transactional(readOnly = true)
     public ProblemResponse getOne(Long userId, Long id) {
         Problem p = repository.findById(id)
@@ -85,7 +65,7 @@ public class ProblemService {
         return toResponse(p);
     }
 
-    // --- 제목 부분일치(대소문자 무시) ---
+    // 목록: 제목 (대소문자 무시)
     @Transactional(readOnly = true)
     public Page<ProblemResponse> search(Long userId, String title, Pageable pageable) {
         Page<Problem> page = (title != null && !title.isBlank())
@@ -94,7 +74,7 @@ public class ProblemService {
         return page.map(this::toResponse);
     }
 
-    // --- 수정(부분) ---
+    // 수정(부분)
     @Transactional
     public ProblemResponse update(Long userId, Long id, ProblemUpdateRequest req) {
         Problem p = repository.findById(id)
@@ -106,13 +86,13 @@ public class ProblemService {
         if (req.getDifficulty() != null) p.setDifficulty(req.getDifficulty());
         if (req.getStatus() != null)     p.setStatus(req.getStatus());
         if (req.getMemo() != null)       p.setMemo(req.getMemo());
-        if (req.getTag() != null)        p.setTagJson(toJsonTag(req.getTag()));
-        p.setNextReviewAt(req.getNextReviewAt());
+        if (req.getTag() != null)        p.setTag(normalizeTag(req.getTag())); // "" -> null
+        p.setNextReviewAt(req.getNextReviewAt()); // null 허용
 
         return toResponse(p);
     }
 
-    // --- 북마크 ---
+    // 북마크 토글
     @Transactional
     public ProblemResponse setBookmark(Long userId, Long id, boolean on) {
         Problem p = repository.findById(id)
@@ -122,7 +102,7 @@ public class ProblemService {
         return toResponse(p);
     }
 
-    // --- 삭제 ---
+    // 삭제
     @Transactional
     public void delete(Long userId, Long id) {
         Problem p = repository.findById(id)
@@ -131,9 +111,17 @@ public class ProblemService {
         repository.delete(p);
     }
 
+    // 북마크 전용 목록
     @Transactional(readOnly = true)
     public Page<ProblemResponse> listBookmarked(Long userId, Pageable pageable) {
         return repository.findByUserIdAndBookmarkedTrue(userId, pageable)
                 .map(this::toResponse);
+    }
+
+    // --- 유틸 ---
+    private String normalizeTag(String tag) {
+        if (tag == null) return null;
+        String t = tag.trim();
+        return t.isEmpty() ? null : t;
     }
 }
