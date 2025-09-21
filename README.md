@@ -70,7 +70,8 @@
   - 입력 검증(Validation), 예외 처리 표준화
  
 ## ERD
-<img width="1345" height="748" alt="image" src="https://github.com/user-attachments/assets/57be0561-8fad-48c6-ad6e-50917c767a87" />
+<img width="1448" height="766" alt="image" src="https://github.com/user-attachments/assets/de17244d-9c1c-4826-8d19-a2f48f6af2b7" />
+
 
 
 
