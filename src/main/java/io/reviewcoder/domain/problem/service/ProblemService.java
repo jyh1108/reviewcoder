@@ -1,12 +1,11 @@
 package io.reviewcoder.domain.problem.service;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.reviewcoder.domain.problem.dto.ProblemCreateRequest;
 import io.reviewcoder.domain.problem.dto.ProblemResponse;
 import io.reviewcoder.domain.problem.dto.ProblemUpdateRequest;
 import io.reviewcoder.domain.problem.model.Problem;
 import io.reviewcoder.domain.problem.repository.ProblemRepository;
+import io.reviewcoder.domain.problem.util.TagUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,8 +26,8 @@ public class ProblemService {
                 .userId(p.getUserId())
                 .title(p.getTitle())
                 .sourceUrl(p.getSourceUrl())
-                .difficulty(p.getDifficulty())
-                .status(p.getStatus())
+                .difficulty(p.getDifficulty().name())
+                .status(p.getStatus().name())
                 .memo(p.getMemo())
                 .bookmarked(p.isBookmarked())
                 .nextReviewAt(p.getNextReviewAt())
@@ -50,7 +49,7 @@ public class ProblemService {
                 .memo(req.getMemo())
                 .bookmarked(false)
                 .nextReviewAt(req.getNextReviewAt())
-                .tag(normalizeTag(req.getTag()))
+                .tag(TagUtils.normalize(req.getTag()))
                 .build();
         repository.save(p);
         return toResponse(p);
@@ -86,7 +85,7 @@ public class ProblemService {
         if (req.getDifficulty() != null) p.setDifficulty(req.getDifficulty());
         if (req.getStatus() != null)     p.setStatus(req.getStatus());
         if (req.getMemo() != null)       p.setMemo(req.getMemo());
-        if (req.getTag() != null)        p.setTag(normalizeTag(req.getTag())); // "" -> null
+        if (req.getTag() != null) p.setTag(TagUtils.normalize(req.getTag()));
         p.setNextReviewAt(req.getNextReviewAt()); // null 허용
 
         return toResponse(p);
@@ -118,10 +117,4 @@ public class ProblemService {
                 .map(this::toResponse);
     }
 
-    // --- 유틸 ---
-    private String normalizeTag(String tag) {
-        if (tag == null) return null;
-        String t = tag.trim();
-        return t.isEmpty() ? null : t;
-    }
 }

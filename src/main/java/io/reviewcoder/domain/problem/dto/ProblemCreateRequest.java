@@ -1,6 +1,8 @@
 package io.reviewcoder.domain.problem.dto;
 
+import io.reviewcoder.domain.problem.model.Problem;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,13 +25,11 @@ public class ProblemCreateRequest {
     @Size(max = 1000)
     private String sourceUrl;
 
-    @NotBlank
-    @Size(max = 16)
-    private String difficulty; // "E" | "M" | "H"
+    @NotNull
+    private Problem.Difficulty difficulty;   // E | M | H
 
-    @NotBlank
-    @Size(max = 20)
-    private String status; // "UNSOLVED" | "SOLVED" | "REVIEW_NEEDED"
+    @NotNull
+    private Problem.ProblemStatus status;    // UNSOLVED | SOLVED | REVIEW_NEEDED
 
     private String memo;
 
