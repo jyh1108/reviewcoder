@@ -34,12 +34,17 @@ public class Problem {
     @Column(name = "source_url", length = 1000)
     private String sourceUrl;
 
-    // ENUM 대신 문자열(간단 버전)
-    @Column(length = 16, nullable = false)
-    private String difficulty; // "E" | "M" | "H"
+    // --- Enums ---
+    public enum Difficulty { E, M, H }
+    public enum ProblemStatus { UNSOLVED, SOLVED, REVIEW_NEEDED }
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 16, nullable = false)
+    private Difficulty difficulty;
+
+    @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
-    private String status; // "UNSOLVED" | "SOLVED" | "REVIEW_NEEDED"
+    private ProblemStatus status;
 
     @Column(name = "memo", columnDefinition = "text")
     private String memo;

@@ -1,6 +1,7 @@
 package io.reviewcoder.domain.problem.dto;
 
 
+import io.reviewcoder.domain.problem.model.Problem;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -19,14 +20,13 @@ public class ProblemUpdateRequest {
     @Size(max = 1000)
     private String sourceUrl;
 
-    @Size(max = 16)
-    private String difficulty; // "E" | "M" | "H"
+    private Problem.Difficulty difficulty;       
 
-    @Size(max = 20)
-    private String status; // "UNSOLVED" | "SOLVED" | "REVIEW_NEEDED"
+    private Problem.ProblemStatus status;
 
     private String memo;
 
+    @Size(max = 500)
     private String tag;
 
     private LocalDateTime nextReviewAt;

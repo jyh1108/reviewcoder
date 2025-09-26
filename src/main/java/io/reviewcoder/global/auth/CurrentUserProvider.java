@@ -9,7 +9,7 @@ import java.security.Principal;
 
 @Component
 @RequiredArgsConstructor
-public class CurrentUser {
+public class CurrentUserProvider {
 
     private final UserRepository userRepository;
 

@@ -5,7 +5,7 @@ import io.reviewcoder.domain.problem.dto.ProblemCreateRequest;
 import io.reviewcoder.domain.problem.dto.ProblemResponse;
 import io.reviewcoder.domain.problem.dto.ProblemUpdateRequest;
 import io.reviewcoder.domain.problem.service.ProblemService;
-import io.reviewcoder.global.auth.CurrentUser;
+import io.reviewcoder.global.auth.CurrentUserProvider;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,7 @@ import java.security.Principal;
 public class ProblemController {
 
     private final ProblemService service;
-    private final CurrentUser currentUser;
+    private final CurrentUserProvider currentUser;
 
     // 생성
     @PostMapping
