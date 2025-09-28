@@ -23,11 +23,8 @@ public class User {
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", insertable = false, updatable = false)
-    private LocalDateTime updatedAt;
 
     @Column(name = "email_verified_at")
     private LocalDateTime emailVerifiedAt;
