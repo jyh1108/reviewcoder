@@ -19,6 +19,7 @@ public class ProblemResponse {
     private final String status;       // "UNSOLVED" | "SOLVED" | "REVIEW_NEEDED"
     private final String memo;
     private final boolean bookmarked;
+    private final LocalDateTime bookmarkedAt;
     private final LocalDateTime nextReviewAt;
     private final String tag;
     private final LocalDateTime createdAt;

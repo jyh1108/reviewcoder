@@ -36,6 +36,5 @@ public class ProblemCreateRequest {
     @Size(max = 500)
     private String tag;
 
-
     private LocalDateTime nextReviewAt;
 }
